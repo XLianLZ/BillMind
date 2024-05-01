@@ -1,0 +1,94 @@
+drop database billmind;
+create database billmind;
+use billmind;
+
+-- Table: Cliente
+CREATE TABLE Client (
+    id int auto_increment NOT NULL,
+    name varchar(100)  NOT NULL,
+    last_name varchar(100)  NOT NULL,
+    mail varchar(100)  NOT NULL,
+    phone varchar(100)  NOT NULL,
+    CONSTRAINT Client_pk PRIMARY KEY (id)
+);
+
+-- Table: Deuda
+CREATE TABLE Debts (
+    id int auto_increment NOT NULL,
+    name varchar(100)  NOT NULL,
+    expiration varchar(100)  NOT NULL,
+    amount varchar(100)  NOT NULL,
+    description text,
+    relevance varchar(100),
+    Client_id int  NOT NULL,
+    CONSTRAINT Debts_pk PRIMARY KEY (id)
+);
+
+-- Table: Recordatorio
+CREATE TABLE Reminder (
+    id int auto_increment NOT NULL,
+    message varchar(100)  NOT NULL,
+    date varchar(100)  NOT NULL,
+    end_reminder varchar(100),
+    Client_id int  NOT NULL,
+    CONSTRAINT Reminder_pk PRIMARY KEY (id)
+);
+
+-- Table: Suscripcion
+CREATE TABLE Subscription (
+    id int auto_increment NOT NULL,
+    type varchar(100)  NOT NULL,
+    initial_date varchar(100)  NOT NULL,
+    end_date varchar(100)  NOT NULL,
+    Client_id int  NOT NULL,
+    CONSTRAINT Suscription_pk PRIMARY KEY (id)
+);
+
+-- Table: Tarjeta
+CREATE TABLE Card (
+    id int auto_increment NOT NULL,
+    name varchar(100)  NOT NULL,
+    card_name varchar(19)  NOT NULL,
+    card_number varchar(3)  NOT NULL,
+    expiration_date varchar(100)  NOT NULL,
+    Client_id int  NOT NULL,
+    CONSTRAINT Card_pk PRIMARY KEY (id)
+);
+
+-- foreign keys
+-- Reference: Deuda_Cliente (table: Deuda)
+ALTER TABLE Debts ADD CONSTRAINT Debts_Client FOREIGN KEY Debts_Client (Client_id)
+    REFERENCES Client (id);
+
+-- Reference: Recordatorio_Deuda (table: Recordatorio)
+ALTER TABLE Reminder ADD CONSTRAINT Reminder_Client FOREIGN KEY Reminder_Client (Client_id)
+    REFERENCES Client (id);
+
+-- Reference: Suscripcion_Cliente (table: Suscripcion)
+ALTER TABLE Subscription ADD CONSTRAINT Subscription_Client FOREIGN KEY Subscription_Client (Client_id)
+    REFERENCES Client (id);
+
+-- Reference: Tarjeta_Cliente (table: Tarjeta)
+ALTER TABLE Card ADD CONSTRAINT Card_Client FOREIGN KEY Card_Client (Client_id)
+    REFERENCES Client (id);
+
+-- Inserts
+
+INSERT INTO Client (name, last_name, mail, phone) VALUES
+('Juan', 'Perez', 'juan@example.com', '1234567890'),
+('María', 'González', 'maria@example.com', '0987654321'),
+('Luis', 'Martínez', 'luis@example.com', '111222333'),
+('Ana', 'Rodríguez', 'ana@example.com', '444555666'),
+('Carlos', 'Sánchez', 'carlos@example.com', '777888999'),
+('Laura', 'Díaz', 'laura@example.com', '000111222'),
+('Pedro', 'López', 'pedro@example.com', '333444555'),
+('Sofía', 'Hernández', 'sofia@example.com', '666777888'),
+('Miguel', 'Pérez', 'miguel@example.com', '999000111'),
+('Lucía', 'García', 'lucia@example.com', '222333444');
+
+INSERT INTO Debt (name, expiration, amount, description, relevance, Client_id) VALUES
+('Tarjeta de crédito', '2024-05-10', '150.25', 'Pago mínimo', 'FALSE', 1),
+('Préstamo personal', '2024-06-15', '500.00', 'Cuota mensual', 'TRUE', 2),
+('Factura de luz', '2024-04-20', '75.50', 'Consumo del mes', 'FALSE', 2);
+
+-- Me dio weba insertar los demás ya que alguien se encargue
